@@ -25,14 +25,10 @@ fs.readdir(process.argv[2], function(err, files){
 	if(err) console.log(err);
 	else{
 		for (var i = files.length - 1; i >= 0; i--) {
-			fs.readFile(process.argv[2]+'/'+files[i], function(err, buffer, validator){
-				if(err) console.log(err);
-				else{
-					if(buffer.toString('hex').substring(0, this.validator.length) === this.validator){
-						console.log(this.file);
-					}
-				}
-			}.bind({validator: validators[path.extname(files[i])], file: files[i]}));
+			var buffer = fs.readFileSync(process.argv[2]+'/'+files[i]);
+			if(buffer.toString('hex').substring(0, validators[path.extname(files[i])].length) === validators[path.extname(files[i])]){
+				console.log(files[i]);
+			}
 		};
 	}
 });
